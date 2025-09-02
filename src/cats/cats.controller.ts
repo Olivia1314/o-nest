@@ -7,6 +7,9 @@ import {
   // Redirect,
   // Param,
   Body,
+  HttpException,
+  HttpStatus,
+  UseFilters,
   // Query,
   // Res,
   // HttpStatus,
@@ -15,8 +18,10 @@ import { CreateCatDto } from './cats.dto';
 import { CatsService } from './cats.service';
 import { Cat } from './cats.interface';
 import type { Response } from 'express';
+import { HttpExceptionFilter } from '../filter/http-exception.filter';
 
 @Controller('cats')
+// @UseFilters(new HttpExceptionFilter()) // 控制器范围
 export class CatsController {
   constructor(private catsService: CatsService) {}
 
@@ -44,9 +49,30 @@ export class CatsController {
   //   res.status(HttpStatus.OK).json([]);
   //   return [];
   // }
+  // @Get()
+  // findAll(): Cat[] {
+  //   return this.catsService.findAll();
+  // }
+  // @Get()
+  // findAll() {
+  //   throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+  // }
   @Get()
   findAll(): Cat[] {
-    return this.catsService.findAll();
+    try {
+      return this.catsService.findAll();
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.FORBIDDEN,
+          error: 'This is a custom message',
+        },
+        HttpStatus.FORBIDDEN,
+        {
+          cause: error,
+        },
+      );
+    }
   }
   // @Post()
   // @HttpCode(204)
@@ -59,6 +85,7 @@ export class CatsController {
   //   res.status(HttpStatus.CREATED).send();
   // }
   @Post()
+  // @UseFilters(new HttpExceptionFilter()) // @useFilters(HttpExceptionFilter) is also valid, 路由范围
   create(@Body() createCatDto: CreateCatDto) {
     this.catsService.create(createCatDto);
   }
