@@ -17,6 +17,7 @@ import {
   DefaultValuePipe,
   ParseBoolPipe,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import type { CreateCatDto } from './cats.dto';
 // import { createCatSchema } from './cats.dto';
@@ -27,11 +28,14 @@ import { HttpExceptionFilter } from '../filter/http-exception.filter';
 import { ValidationPipe } from '../pipe/validation.pipe';
 import { ZodValidationPipe } from '../pipe/zod-validation.pipe';
 // import { ParseIntPipe } from '../pipe/parse-int.pipe';
+import { RolesGuard } from '../guard/roles.guard';
+import { Roles } from 'src/decorator/roles.decorator';
 
 @Controller('cats')
 // @UseFilters(new HttpExceptionFilter()) // 控制器范围
 export class CatsController {
   constructor(private catsService: CatsService) {}
+  @UseGuards(RolesGuard) // @UseGuards(new RolesGuard())
 
   // @Get()
   // @Redirect('https://nestjs.com', 301)
@@ -110,8 +114,8 @@ export class CatsController {
   // findOne(@Param('id', ParseIntPipe) id: number) {
   //   return id;
   // }
-
   @Get()
+  // @Roles(['admin'])
   findAll(
     @Query('activeOnly', new DefaultValuePipe(false), ParseBoolPipe)
     activeOnly: boolean,

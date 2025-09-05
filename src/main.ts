@@ -5,6 +5,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { HttpExceptionFilter } from './filter/http-exception.filter';
 import { AllExceptionsFilter } from './filter/all-exception.filter';
 import { ValidationPipe } from '@nestjs/common';
+import { RolesGuard } from './guard/roles.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -16,6 +17,8 @@ async function bootstrap() {
   // app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));
 
   // app.useGlobalPipes(new ValidationPipe());
+
+  // app.useGlobalGuards(new RolesGuard());
 
   await app.listen(process.env.PORT ?? 3000);
 }

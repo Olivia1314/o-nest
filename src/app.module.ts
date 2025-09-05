@@ -9,7 +9,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CatsModule } from './cats/cats.module';
 import { LoggerMiddleware } from './middleware/logger.middleware';
-import { APP_FILTER, APP_PIPE } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_PIPE } from '@nestjs/core';
+import { RolesGuard } from './guard/roles.guard';
 // import { HttpExceptionFilter } from './filter/http-exception.filter';
 
 @Module({
@@ -22,10 +23,17 @@ import { APP_FILTER, APP_PIPE } from '@nestjs/core';
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
     },*/
+
     /*// 注入ValidationPipe依赖项
     {
       provide: APP_PIPE,
       useClass: ValidationPipe,
+    },*/
+
+    /* // 注入 RolesGuard 依赖项
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },*/
   ],
 })
