@@ -5,7 +5,13 @@ import { CatsService } from './cats.service';
 @Global()
 @Module({
   controllers: [CatsController],
-  providers: [CatsService],
+  providers: [
+    CatsService,
+    {
+      provide: 'CONNECTION',
+      useValue: 'I am connection string',
+    },
+  ],
   exports: [CatsService],
 })
 export class CatsModule {

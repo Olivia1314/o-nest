@@ -20,6 +20,7 @@ import {
   UseGuards,
   UseInterceptors,
   ValidationPipe,
+  Inject,
 } from '@nestjs/common';
 import type { CreateCatDto } from './cats.dto';
 // import { createCatSchema } from './cats.dto';
@@ -39,7 +40,10 @@ import { User } from 'src/decorator/user.decorator';
 // @UseFilters(new HttpExceptionFilter()) // 控制器范围
 // @UseInterceptors(LoggingInterceptor) // 控制器范围 @UseInterceptors(new LoggingInterceptor())
 export class CatsController {
-  constructor(private catsService: CatsService) {}
+  constructor(
+    private catsService: CatsService,
+    @Inject('CONNECTION') private readonly connection: string,
+  ) {}
   @UseGuards(RolesGuard) // @UseGuards(new RolesGuard())
 
   // @Get()
@@ -134,11 +138,18 @@ export class CatsController {
   // findOne(@User('firstName') firstName: string) {
   //   console.log(firstName);
   // }
+
+  // @Get()
+  // findOne(
+  //   @User(new ValidationPipe({ validateCustomDecorators: true })) user: any,
+  // ) {
+  //   console.log(user);
+  // }
+
   @Get()
-  findOne(
-    @User(new ValidationPipe({ validateCustomDecorators: true })) user: any,
-  ) {
-    console.log(user);
+  showConnection() {
+    console.log(this.connection);
+    return this.connection;
   }
 
   // @Post()
