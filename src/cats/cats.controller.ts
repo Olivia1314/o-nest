@@ -18,6 +18,8 @@ import {
   ParseBoolPipe,
   ParseIntPipe,
   UseGuards,
+  UseInterceptors,
+  ValidationPipe,
 } from '@nestjs/common';
 import type { CreateCatDto } from './cats.dto';
 // import { createCatSchema } from './cats.dto';
@@ -25,14 +27,17 @@ import { CatsService } from './cats.service';
 import { Cat } from './cats.interface';
 import type { Response } from 'express';
 import { HttpExceptionFilter } from '../filter/http-exception.filter';
-import { ValidationPipe } from '../pipe/validation.pipe';
+// import { ValidationPipe } from '../pipe/validation.pipe';
 import { ZodValidationPipe } from '../pipe/zod-validation.pipe';
 // import { ParseIntPipe } from '../pipe/parse-int.pipe';
 import { RolesGuard } from '../guard/roles.guard';
 import { Roles } from 'src/decorator/roles.decorator';
+import { LoggingInterceptor } from 'src/interceptor/logging.interceptor';
+import { User } from 'src/decorator/user.decorator';
 
 @Controller('cats')
 // @UseFilters(new HttpExceptionFilter()) // 控制器范围
+// @UseInterceptors(LoggingInterceptor) // 控制器范围 @UseInterceptors(new LoggingInterceptor())
 export class CatsController {
   constructor(private catsService: CatsService) {}
   @UseGuards(RolesGuard) // @UseGuards(new RolesGuard())
@@ -114,14 +119,26 @@ export class CatsController {
   // findOne(@Param('id', ParseIntPipe) id: number) {
   //   return id;
   // }
+
+  // @Get()
+  // // @Roles(['admin'])
+  // findAll(
+  //   @Query('activeOnly', new DefaultValuePipe(false), ParseBoolPipe)
+  //   activeOnly: boolean,
+  //   @Query('page', new DefaultValuePipe(0), ParseIntPipe) page: number,
+  // ) {
+  //   return `activeOnly: ${activeOnly}, page: ${page}`;
+  // }
+
+  // @Get()
+  // findOne(@User('firstName') firstName: string) {
+  //   console.log(firstName);
+  // }
   @Get()
-  // @Roles(['admin'])
-  findAll(
-    @Query('activeOnly', new DefaultValuePipe(false), ParseBoolPipe)
-    activeOnly: boolean,
-    @Query('page', new DefaultValuePipe(0), ParseIntPipe) page: number,
+  findOne(
+    @User(new ValidationPipe({ validateCustomDecorators: true })) user: any,
   ) {
-    return `activeOnly: ${activeOnly}, page: ${page}`;
+    console.log(user);
   }
 
   // @Post()

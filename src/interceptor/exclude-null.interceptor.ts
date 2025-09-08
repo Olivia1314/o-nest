@@ -1,19 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import {
   Injectable,
   NestInterceptor,
   ExecutionContext,
   CallHandler,
 } from '@nestjs/common';
-import { Observable, tap } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 @Injectable()
-export class LoggingInterceptor implements NestInterceptor {
+export class ExcludeNullInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    console.log('Before...');
-
-    const now = Date.now();
     return next
       .handle()
-      .pipe(tap(() => console.log(`After... ${Date.now() - now}ms`)));
+      .pipe(map((value: any) => (value === null ? '' : value)));
   }
 }

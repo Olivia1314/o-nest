@@ -9,8 +9,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CatsModule } from './cats/cats.module';
 import { LoggerMiddleware } from './middleware/logger.middleware';
-import { APP_FILTER, APP_GUARD, APP_PIPE } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { RolesGuard } from './guard/roles.guard';
+import { LoggingInterceptor } from './interceptor/logging.interceptor';
 // import { HttpExceptionFilter } from './filter/http-exception.filter';
 
 @Module({
@@ -35,6 +36,13 @@ import { RolesGuard } from './guard/roles.guard';
       provide: APP_GUARD,
       useClass: RolesGuard,
     },*/
+
+    /* // 注入 LoggingInterceptor 依赖项
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
+    },
+    */
   ],
 })
 export class AppModule implements NestModule {
