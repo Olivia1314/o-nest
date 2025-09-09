@@ -13,9 +13,17 @@ import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { RolesGuard } from './guard/roles.guard';
 import { LoggingInterceptor } from './interceptor/logging.interceptor';
 // import { HttpExceptionFilter } from './filter/http-exception.filter';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from './config/config.module';
 
 @Module({
-  imports: [CatsModule],
+  imports: [
+    CatsModule,
+    UsersModule,
+    AuthModule,
+    ConfigModule.register({ folder: './config' }),
+  ],
   controllers: [AppController],
   providers: [
     AppService,
