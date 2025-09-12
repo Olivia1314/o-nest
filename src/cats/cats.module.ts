@@ -1,4 +1,4 @@
-import { Module, Global } from '@nestjs/common';
+import { Module, Global, Scope } from '@nestjs/common';
 import { CatsController } from './cats.controller';
 import { CatsService } from './cats.service';
 
@@ -10,6 +10,8 @@ import { CatsService } from './cats.service';
     {
       provide: 'CONNECTION',
       useValue: 'I am connection string',
+      scope: Scope.TRANSIENT,
+      durable: true,
     },
   ],
   exports: [CatsService],

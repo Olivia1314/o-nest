@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
@@ -10,6 +11,7 @@ import { MODULE_OPTIONS_TOKEN } from './config.module-definition';
 
 @Injectable()
 export class ConfigService {
+  /*
   private readonly envConfig: { [key: string]: string };
 
   // constructor(@Inject('CONFIG_OPTIONS') private options: Record<string, any>) {
@@ -22,4 +24,5 @@ export class ConfigService {
   get(key: string): string {
     return this.envConfig[key];
   }
+    */
 }

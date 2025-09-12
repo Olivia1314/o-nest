@@ -22,7 +22,25 @@ import { ConfigModule } from './config/config.module';
     CatsModule,
     UsersModule,
     AuthModule,
-    ConfigModule.register({ folder: './config' }),
+    // ConfigModule.forRoot({ folder: './config' }),
+
+    /*
+    // <-- this class must provide the "createConfigOptions" method
+    // eg.
+    // @Injectable()
+    // class ConfigModuleOptionsFactory {
+    //   createConfigOptions(): ConfigModuleOptions {
+    //     return {
+    //       // 返回实际的配置对象
+    //       envFilePath: '.env.production',
+    //       // 其他配置项...
+    //     };
+    //   }
+    // }
+    ConfigModule.registerAsync({
+      useClass: ConfigModuleOptionsFactory, 
+    })
+    */
   ],
   controllers: [AppController],
   providers: [

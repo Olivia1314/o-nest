@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Scope } from '@nestjs/common';
 import { Cat } from './cats.interface';
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST })
 export class CatsService {
   private readonly cats: Cat[] = [];
 

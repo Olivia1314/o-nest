@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, LazyModuleLoader, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { HttpExceptionFilter } from './filter/http-exception.filter';
@@ -25,6 +25,9 @@ async function bootstrap() {
 
   // app.useGlobalInterceptors(new LoggingInterceptor());
   // app.useGlobalInterceptors(new TransformInterceptor(), new CacheInterceptor());
+
+  // "app" represents a Nest application instance
+  // const lazyModuleLoader = app.get(LazyModuleLoader);
 
   await app.listen(process.env.PORT ?? 3000);
 }
