@@ -29,6 +29,9 @@ async function bootstrap() {
   // "app" represents a Nest application instance
   // const lazyModuleLoader = app.get(LazyModuleLoader);
 
+  // Starts listening for shutdown hooks
+  // app.enableShutdownHooks();
+
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

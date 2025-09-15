@@ -21,6 +21,7 @@ import {
   UseInterceptors,
   ValidationPipe,
   Inject,
+  SetMetadata,
 } from '@nestjs/common';
 import type { CreateCatDto } from './cats.dto';
 // import { createCatSchema } from './cats.dto';
@@ -171,8 +172,14 @@ export class CatsController {
   //   this.catsService.create(createCatDto);
   // }
 
+  // @Post()
+  // create(@Body(new ValidationPipe()) createCatDto: CreateCatDto) {
+  //   this.catsService.create(createCatDto);
+  // }
+
   @Post()
-  create(@Body(new ValidationPipe()) createCatDto: CreateCatDto) {
+  @SetMetadata('roles', ['admin'])
+  create(@Body() createCatDto: CreateCatDto) {
     this.catsService.create(createCatDto);
   }
 }
